@@ -254,7 +254,7 @@ abstract class Swipego_Client {
         unset( $data['hash'] );
 
         $encoded_hash = implode( '', array_values( $data ) );
-        $generated_hash = hash_hmac( 'SHA256', $encoded_hash, $this->signature_key );
+        $generated_hash = hash_hmac( 'SHA256', $this->signature_key . $encoded_hash, $this->signature_key );
 
         return $hash == $generated_hash;
 
