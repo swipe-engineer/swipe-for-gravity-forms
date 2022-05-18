@@ -25,5 +25,5 @@ Allows user to made payment on Gravity Forms using Swipe.
 
 ## Changelog
 
-= 1.0.0 - 2022-03-24 =
+1.0.0 - 2022-03-24
 - Initial release of the plugin
