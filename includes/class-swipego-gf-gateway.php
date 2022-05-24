@@ -344,12 +344,12 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
     // Create a payment link
     public function redirect_url( $feed, $submission_data, $form, $entry ) {
 
-        $this->log_debug( __METHOD__ . '(): Creating payment link for entry #' . $entry['id'] );
+        swipego_gf_logger( __METHOD__ . '(): Creating payment link for entry #' . $entry['id'] );
 
         $this->init_api( $feed['meta'] );
 
         try {
-            $this->log_debug( __METHOD__ . sprintf( '(): Creating payment link for entry #%s', $entry['id'] ) );
+            swipego_gf_logger( __METHOD__ . sprintf( '(): Creating payment link for entry #%s', $entry['id'] ) );
 
             $params = array(
                 'email'        => rgar( $submission_data, 'email' ),
@@ -369,7 +369,7 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
             if ( isset( $response['data']['_id'] ) ) {
                 gform_update_meta( $entry['id'], '_id', $response['data']['_id'] );
 
-                $this->log_debug( __METHOD__ . sprintf( '(): Payment link created for entry #%d', $entry['id'] ) );
+                swipego_gf_logger( __METHOD__ . sprintf( '(): Payment link created for entry #%d', $entry['id'] ) );
             }
 
             if ( isset( $response['data']['payment_url'] ) ) {
@@ -377,7 +377,7 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
             }
 
         } catch ( Exception $e ) {
-            $this->log_debug( __METHOD__ . sprintf( '(): Error creating payment link for entry #%1$d: %2$s', $entry['id'], $e->getMessage() ) );
+            swipego_gf_logger( __METHOD__ . sprintf( '(): Error creating payment link for entry #%1$d: %2$s', $entry['id'], $e->getMessage() ) );
         }
 
     }
@@ -389,7 +389,13 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
             return false;
         }
 
-        $entry_id = absint( rgpost( 'payment_link_reference' ) );
+        if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
+            return false;
+        }
+
+        $data     = file_get_contents( 'php://input' );
+        $data     = json_decode( $data, true );
+        $entry_id = $data['data']['payment_link_reference'] ?? null;
 
         if ( !$entry_id ) {
             return false;
@@ -403,14 +409,14 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
         }
 
         if ( $entry['status'] == 'spam' ) {
-            $this->log_debug( __METHOD__ . '(): Entry #' . $entry['id'] . 'is marked as spam.' );
+            swipego_gf_logger( __METHOD__ . '(): Entry #' . $entry['id'] . 'is marked as spam.' );
             return false;
         }
 
         $payment_id = gform_get_meta( $entry['id'], '_id' );
 
         if ( !$payment_id ) {
-            $this->log_debug( __METHOD__ . '(): Payment for entry #' . $entry['id'] . ' not found.' );
+            swipego_gf_logger( __METHOD__ . '(): Payment for entry #' . $entry['id'] . ' not found.' );
             return false;
         }
 
@@ -418,7 +424,7 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
 
         // Check if payment gateway is still active for specified form
         if ( !$feed || !rgar( $feed, 'is_active' ) ) {
-            $this->log_debug( __METHOD__ . '(): Swipe no longer active for form #' . $entry['form_id'] );
+            swipego_gf_logger( __METHOD__ . '(): Swipe no longer active for form #' . $entry['form_id'] );
             return false;
         }
 
@@ -429,13 +435,13 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
         $response = $this->swipego->get_ipn_response();
 
         try {
-            $this->log_debug( __METHOD__ . '(): Verifying hash for entry #' . $entry_id );
+            swipego_gf_logger( __METHOD__ . '(): Verifying hash for entry #' . $entry_id );
             $this->swipego->validate_ipn_response( $response );
         } catch ( Exception $e ) {
             swipego_gf_logger( $e->getMessage() );
             wp_die( $e->getMessage(), 'Swipe IPN', array( 'response' => 200 ) );
         } finally {
-            $this->log_debug( __METHOD__ . '(): Verified hash for entry #' . $entry_id );
+            swipego_gf_logger( __METHOD__ . '(): Verified hash for entry #' . $entry_id );
         }
 
         switch ( $response['payment_status'] ) {

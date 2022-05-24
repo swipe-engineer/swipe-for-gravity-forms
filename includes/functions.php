@@ -12,6 +12,8 @@ function swipego_gf_notice( $message, $type = 'success' ) {
 
 // Log a message in Gravity Forms logs
 function swipego_gf_logger( $message ) {
+    
+    do_action( 'logger', $message );
 
     if ( class_exists( 'GFLogging' ) && class_exists( 'KLogger' ) ) {
         GFLogging::include_logger();
