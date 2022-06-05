@@ -4,8 +4,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 abstract class Swipego_Client {
 
 
-    const PRODUCTION_URL = 'https://api.swipego.io/api/';
-    const SANDBOX_URL    = 'https://api-test.swipego.io/api/';
+    const PRODUCTION_URL = 'https://dev-api.swipego.io/api/';
+    const SANDBOX_URL    = 'https://dev-api-test.swipego.io/api/';
 
     protected $access_token = null;
     protected $api_key = null;

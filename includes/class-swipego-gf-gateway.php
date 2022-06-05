@@ -477,19 +477,15 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
     // Generate thank you page URL
     private function get_return_url( $form_id, $entry_id ) {
 
-        $page_url = GFCommon::is_ssl() ? 'https://' : 'http://';
-
-        if ( $_SERVER['SERVER_PORT'] !== '80' ) {
-            $page_url .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
-        } else {
-            $page_url .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-        }
+        $referer_url  = ! empty( $_SERVER['HTTP_REFERER'] ) 
+            ? sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) 
+            : sanitize_url( $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] );
 
         // Hashing form and entry ID in thank you page URL
         $ids_query = "ids={$form_id}|{$entry_id}";
         $ids_query .= '&hash=' . wp_hash( $ids_query );
 
-        $page_url = add_query_arg( 'swipego_gf_return', base64_encode( $ids_query ), $page_url );
+        $page_url = add_query_arg( 'swipego_gf_return', base64_encode( $ids_query ), $referer_url );
 
         return $page_url;
 
