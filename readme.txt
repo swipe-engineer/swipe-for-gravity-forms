@@ -2,7 +2,7 @@
 Contributors: teamswipe
 Tags: swipe, gravity forms, payment
 Requires at least: 4.6
-Tested up to: 5.9.2
+Tested up to: 6.0.1
 Stable tag: 1.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
