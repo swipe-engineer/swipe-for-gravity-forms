@@ -174,6 +174,8 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
             $swipego->set_access_token( swipego_get_access_token() );
             $swipego->set_environment( $environment );
 
+            swipego_gf_logger( __METHOD__ . sprintf( '(): env #%d', $environment ) );
+
             // Get all webhooks because we need to delete existing webhook first
             // 1 = payment.created
             list( $code, $response ) = $swipego->get_webhooks( $business_id, $integration_id );
