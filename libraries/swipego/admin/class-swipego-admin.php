@@ -66,7 +66,8 @@ class Swipego_Admin {
     private function dashboard_page() {
 
         $swipego_wc_plugin = $this->get_plugin_url( 'woocommerce/woocommerce.php', 'swipe-for-woocommerce/swipego-wc.php', 'wc', __( 'WooCommerce', 'swipego' ) );
-        $swipego_gf_plugin = $this->get_plugin_url( 'gravityforms/gravityforms.php', 'swipe-for-gravityforms/swipego-gf.php', 'gf', __( 'Gravity Forms', 'swipego' ) );
+        $swipego_gf_plugin = $this->get_plugin_url( 'gravityforms/gravityforms.php', 'swipe-for-gravity-forms/swipego-gf.php', 'gf', __( 'Gravity Forms', 'swipego' ) );
+        $swipego_give_plugin = $this->get_plugin_url('give/give.php', 'swipe-for-givewp/swipego-gwp.php', 'gwp', __('Give WP', 'swipego'));
 
         ob_start();
         require_once( SWIPEGO_PATH . 'admin/views/dashboard.php' );
@@ -78,53 +79,68 @@ class Swipego_Admin {
     // Generate plugin URL based on installed and activated plugins
     private function get_plugin_url( $main_plugin_file, $swipego_plugin_file, $settings_page_slug, $main_plugin_name ) {
 
-        $is_main_plugin_activated = swipego_is_plugin_activated( $main_plugin_file );
-        $is_swipego_plugin_activated = swipego_is_plugin_activated( $swipego_plugin_file );
+        $main_plugin = explode('/', $main_plugin_file)[0] ?? '';
+        $swipe_plugin = explode('/', $swipego_plugin_file)[0] ?? '';
 
-        $is_main_plugin_installed = swipego_is_plugin_installed( $main_plugin_file );
-        $is_swipego_plugin_installed = swipego_is_plugin_installed( $swipego_plugin_file );
+        $is_main_plugin_activated = swipego_is_plugin_activated($main_plugin_file);
+        $is_swipego_plugin_activated = swipego_is_plugin_activated($swipego_plugin_file);
 
-        $swipego_plugin_download_url = '';
+        $is_main_plugin_installed = swipego_is_plugin_installed($main_plugin_file);
+        $is_swipego_plugin_installed = swipego_is_plugin_installed($swipego_plugin_file);
+
+        $main_plugin_download_url = 'https://wordpress.org/plugins/' . $main_plugin;
+        $swipego_plugin_download_url = 'https://wordpress.org/plugins/' . $swipe_plugin;
+
+        if ($main_plugin == 'gravityforms') {
+            $main_plugin_download_url = 'https://www.gravityforms.com';
+        }
+
+        if ($is_main_plugin_activated && $is_swipego_plugin_activated && $settings_page_slug == 'gwp') {
+            return array(
+                'label' => __('Configure', 'swipego'),
+                'url'   => admin_url('edit.php?post_type=give_forms&page=give-settings&tab=gateways')
+            );
+        }
 
         // If main plugin and Swipe plugin is activated, return settings page URL
-        if ( $is_main_plugin_activated && $is_swipego_plugin_activated ) {
+        if ($is_main_plugin_activated && $is_swipego_plugin_activated) {
             return array(
-                'label' => __( 'Configure', 'swipego' ),
-                'url'   => admin_url( 'admin.php?page=swipego_' . $settings_page_slug . '_settings' )
+                'label' => __('Configure', 'swipego'),
+                'url'   => admin_url('admin.php?page=swipego_' . $settings_page_slug . '_settings')
             );
         }
 
         // If Swipe plugin is installed but not activated, return plugin activation URL
-        if ( $is_swipego_plugin_installed && !$is_swipego_plugin_activated ) {
+        if ($is_swipego_plugin_installed && !$is_swipego_plugin_activated) {
             return array(
-                'label' => __( 'Activate', 'swipego' ),
-                'url'   => wp_nonce_url( admin_url( 'plugins.php?action=activate&plugin=' . $swipego_plugin_file ), 'activate-plugin_' . $swipego_plugin_file )
+                'label' => __('Activate', 'swipego'),
+                'url'   => wp_nonce_url(admin_url('plugins.php?action=activate&plugin=' . $swipego_plugin_file), 'activate-plugin_' . $swipego_plugin_file)
             );
         }
 
         // If Swipe plugin is not installed, return plugin download URL
-        if ( !$is_swipego_plugin_installed ) {
+        if (!$is_swipego_plugin_installed) {
             return array(
-                'label' => __( 'Download', 'swipego' ),
-                'url'   => esc_url( 'https://wordpress.org/plugins/' . $swipego_plugin_download_url )
+                'label' => __('Download', 'swipego'),
+                'url'   => esc_url($swipego_plugin_download_url)
             );
         }
 
         /////////////////////////////////////////////////////////////
 
         // If main plugin is installed but not activated, return plugin activation URL
-        if ( $is_main_plugin_installed && !$is_main_plugin_activated ) {
+        if ($is_main_plugin_installed && !$is_main_plugin_activated) {
             return array(
-                'label' => sprintf( __( 'Activate %s', 'swipego' ), $main_plugin_name ),
-                'url'   => wp_nonce_url( admin_url( 'plugins.php?action=activate&plugin=' . $main_plugin_file ), 'activate-plugin_' . $main_plugin_file )
+                'label' => sprintf(__('Activate %s', 'swipego'), $main_plugin_name),
+                'url'   => wp_nonce_url(admin_url('plugins.php?action=activate&plugin=' . $main_plugin_file), 'activate-plugin_' . $main_plugin_file)
             );
         }
 
         // If main plugin is not installed, return plugin download URL
-        if ( !$is_main_plugin_installed ) {
+        if (!$is_main_plugin_installed) {
             return array(
-                'label' => sprintf( __( 'Download %s', 'swipego' ), $main_plugin_name ),
-                'url'   => esc_url( 'https://wordpress.org/plugins/' . $main_plugin_download_url )
+                'label' => sprintf(__('Download %s', 'swipego'), $main_plugin_name),
+                'url'   => esc_url($main_plugin_download_url)
             );
         }
 
