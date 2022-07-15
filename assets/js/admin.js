@@ -72,6 +72,7 @@ jQuery(document).ready(function($) {
     tab.find('#set-webhook').on('click', function(e) {
         var btn            = $(this),
             btn_text       = btn.text(),
+            environment    = tab.find('input[type=radio][name="_gform_setting_environment"]:checked').val(),
             business_id    = tab.find('#business').val(),
             integration_id = tab.find('#integration').val();
 
@@ -83,6 +84,7 @@ jQuery(document).ready(function($) {
                 action: 'swipego_gf_set_webhook',
                 nonce: swipego_gf_set_webhook.nonce,
                 business_id: business_id,
+                environment: environment,
                 integration_id: integration_id,
             },
             beforeSend: function() {

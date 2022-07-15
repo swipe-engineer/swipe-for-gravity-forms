@@ -141,6 +141,7 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
 
         $nonce          = isset( $_POST['nonce'] ) ? sanitize_text_field( $_POST['nonce'] ) : null;
         $business_id    = isset( $_POST['business_id'] ) ? sanitize_text_field( $_POST['business_id'] ) : null;
+        $environment    = isset( $_POST['environment'] ) ? sanitize_text_field( $_POST['environment'] ) : null;
         $integration_id = isset( $_POST['integration_id'] ) ? sanitize_text_field( $_POST['integration_id'] ) : null;
 
         if ( !wp_verify_nonce( $nonce, 'swipego_gf_set_webhook_nonce' ) ) {
@@ -171,6 +172,7 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
 
             $swipego = new Swipego_GF_API();
             $swipego->set_access_token( swipego_get_access_token() );
+            $swipego->set_environment( $environment );
 
             // Get all webhooks because we need to delete existing webhook first
             // 1 = payment.created
