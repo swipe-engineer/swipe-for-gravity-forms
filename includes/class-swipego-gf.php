@@ -18,6 +18,8 @@ class Swipego_GF {
         if ( swipego_is_logged_in() && swipego_is_plugin_activated( 'gravityforms/gravityforms.php' ) ) {
 
             // API
+            require_once( SWIPEGO_GF_PATH . 'libraries/swipego/includes/abstracts/abstract-swipego-client.php' );
+            require_once( SWIPEGO_GF_PATH . 'libraries/swipego/includes/class-swipego-api.php' );
             require_once( SWIPEGO_GF_PATH . 'includes/class-swipego-gf-api.php' );
 
             // Initialize payment gateway

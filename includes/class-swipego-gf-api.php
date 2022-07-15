@@ -1,7 +1,7 @@
 <?php
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class Swipego_GF_API extends Swipego_API {
+class Swipego_GF_API extends Swipego_API_GF {
 
     // Log a message in Gravity Forms logs
     protected function log( $message ) {

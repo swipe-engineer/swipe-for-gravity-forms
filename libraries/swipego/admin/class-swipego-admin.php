@@ -211,7 +211,7 @@ class Swipego_Admin {
 
         try {
             
-            $swipego = new Swipego_API();
+            $swipego = new Swipego_API_GF();
 
             list( $code, $response ) = $swipego->sign_in( array(
                 'email'    => $email,

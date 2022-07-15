@@ -1,7 +1,7 @@
 <?php
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class Swipego_API extends Swipego_Client {
+class Swipego_API_GF extends Swipego_Client_GF {
 
     public function sign_in( array $params ) {
         return $this->post( 'auth/sign-in', $params );
