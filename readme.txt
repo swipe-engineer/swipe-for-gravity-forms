@@ -73,7 +73,7 @@ Step for existing Swipe users:
 4. Start accepting payment.
 
 Step for new Swipe users:
-1. Create your Swipe account. Link to (https://app.swipego.io/register)
+1. [Create your Swipe account](https://app.swipego.io/register).
 2. Add your business.
 3. Install and activate your Gravity Forms.
 4. Login your Swipe account.
