@@ -60,7 +60,7 @@ Swipe for Gravity Forms includes Web Payments API support, allowing customers to
 #### SWIPE API SYNC
 Swipe introduces a new way to integrate our platform with your stores in less than 1 min. You no longer have to worry about where to get the API Access Key or API Signature Key from the payment platform. We have you covered! 
 
-The new technology helps non-technical or first time users to integrate with our payment platform with your login details only. We help to fetch the API keys automatically and you just have to install our plugin. It is that simple! [Watch this video](https://www.youtube.com/watch?v=9mhcNP-xKWg)
+The new technology helps non-technical or first time users to integrate with our payment platform with your login details only. We help to fetch the API keys automatically and you just have to install our plugin. It is that simple!
 
 == Installation ==
 
