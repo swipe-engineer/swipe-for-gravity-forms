@@ -22,7 +22,7 @@ class Swipego_GF {
             require_once( SWIPEGO_GF_PATH . 'libraries/swipego/includes/class-swipego-api.php' );
             require_once( SWIPEGO_GF_PATH . 'includes/class-swipego-gf-api.php' );
         
-            if ( swipego_get_integration() ) {
+            if ( swipego_is_logged_in() || swipego_get_integration() ) {
                 
                 // Initialize payment gateway
                 require_once( SWIPEGO_GF_PATH . 'includes/class-swipego-gf-init.php' );

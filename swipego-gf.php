@@ -15,11 +15,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 if ( class_exists( 'Swipego_GF' ) ) return;
 
+if ( ! function_exists('swipego_get_integration') ) return;
+
 define( 'SWIPEGO_GF_FILE', __FILE__ );
 define( 'SWIPEGO_GF_URL', plugin_dir_url( SWIPEGO_GF_FILE ) );
 define( 'SWIPEGO_GF_PATH', plugin_dir_path( SWIPEGO_GF_FILE ) );
 define( 'SWIPEGO_GF_BASENAME', plugin_basename( SWIPEGO_GF_FILE ) );
-define( 'SWIPEGO_GF_VERSION', '1.0.0' );
+define( 'SWIPEGO_GF_VERSION', '1.0.6' );
 
 // Plugin core class
 require( SWIPEGO_GF_PATH . 'includes/class-swipego-gf.php' );
