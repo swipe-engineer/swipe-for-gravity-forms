@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Swipe for Gravity Forms
  * Description:       Swipe payment integration for Gravity Forms.
- * Version:           1.0.0
+ * Version:           1.0.6
  * Requires at least: 4.6
  * Requires PHP:      7.0
  * Author:            Fintech Worldwide Sdn. Bhd.

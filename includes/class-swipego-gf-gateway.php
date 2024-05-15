@@ -464,6 +464,22 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
                 $payment_status = 'Failed';
                 break;
         }
+        
+        if ($type == 'complete_payment') {
+            $form = GFAPI::get_form( $entry['form_id'] );
+            
+            // notify to event complete payment
+            $notifications = $this->get_notifications_to_send($form, 'complete_payment');
+            GFCommon::send_notifications($notifications, $form, $entry, true, 'complete_payment');
+        }
+        
+        if ($type == 'fail_payment') {
+            $form = GFAPI::get_form( $entry['form_id'] );
+            
+            // notify to event fail payment
+            $notifications = $this->get_notifications_to_send($form, 'fail_payment');
+            GFCommon::send_notifications($notifications, $form, $entry, true, 'fail_payment');
+        }
 
         return array(
             'id'               => $response['payment_link_id'],
@@ -476,6 +492,21 @@ class Swipego_GF_Gateway extends GFPaymentAddOn {
             'payment_method'   => $this->_short_title,
         );
 
+    }
+    
+    public function get_notifications_to_send($form, $status)
+    {
+        $notifications_to_send  = array();
+
+        foreach ($form['notifications'] as $notification) {
+            if (rgar($notification, 'event') != $status) {
+                continue;
+            }
+
+            $notifications_to_send[] = $notification['id'];
+        }
+        
+        return $notifications_to_send;
     }
 
     // Generate thank you page URL

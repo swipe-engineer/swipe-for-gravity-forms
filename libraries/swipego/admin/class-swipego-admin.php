@@ -229,6 +229,7 @@ class Swipego_Admin {
 
             if ( isset( $data['token'] ) && !empty( $data['token'] ) ) {
                 swipego_update_access_token( $data['token'], $remember );
+                swipego_update_integration($email);
             } else {
                 throw new Exception( __( 'An error occured! Please try again.', 'swipego' ) );
                 
@@ -264,6 +265,7 @@ class Swipego_Admin {
         }
 
         swipego_delete_access_token();
+        swipego_delete_integration();
 
         wp_send_json_success();
 

@@ -3,7 +3,7 @@ Contributors: teamswipe
 Tags: swipe, gravity forms, payment
 Requires at least: 4.6
 Tested up to: 6.0.1
-Stable tag: 1.0.0
+Stable tag: 1.0.6
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -90,6 +90,18 @@ Explore us: [www.swipego.io](https://www.swipego.io)
 Social Media: [Facebook](https://www.facebook.com/swipego/)
 
 == Changelog ==
+
+= 1.0.6 - 2024-05-16 =
+- Fix expired token
+
+= 1.0.5 - 2023-03-28 =
+- Add event for success and fail
+
+= 1.0.4 - 2023-03-08 =
+- Fix add email
+
+= 1.0.1 - 2023-03-06 =
+- Fix token expired
 
 = 1.0.0 - 2022-03-24 =
 - Initial release of the plugin
